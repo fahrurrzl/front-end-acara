@@ -9,9 +9,12 @@ const inter = Inter({
   weight: ["400", "500", "600", "700", "800", "900"],
 });
 
-export default function App({ Component, pageProps }: AppProps) {
+export default function App({
+  Component,
+  pageProps: { session, ...pageProps },
+}: AppProps) {
   return (
-    <Provider>
+    <Provider session={session}>
       <main
         className={cn(
           inter.className,
