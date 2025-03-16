@@ -6,4 +6,12 @@ interface IRegister {
   confirmPassword: string;
 }
 
-export type { IRegister };
+interface IActivation {
+  code: string;
+}
+
+interface ActivationProps {
+  status: "success" | "failed";
+}
+
+export type { IRegister, IActivation, ActivationProps };
