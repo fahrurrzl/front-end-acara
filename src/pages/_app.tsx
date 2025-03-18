@@ -15,12 +15,7 @@ export default function App({
 }: AppProps) {
   return (
     <Provider session={session}>
-      <main
-        className={cn(
-          inter.className,
-          "flex min-h-screen min-w-full flex-col items-center justify-center gap-10",
-        )}
-      >
+      <main className={cn(inter.className)}>
         <Component {...pageProps} />
       </main>
     </Provider>

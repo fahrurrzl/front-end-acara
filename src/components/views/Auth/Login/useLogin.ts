@@ -28,7 +28,7 @@ const useLogin = () => {
     resolver: yupResolver(loginSchema),
   });
 
-  const callbackUrl: string = router.query.callbackUrl as string;
+  const callbackUrl: string = (router.query.callbackUrl as string) || "/";
 
   const loginService = async (payload: ILogin) => {
     const result = await signIn("credentials", {
