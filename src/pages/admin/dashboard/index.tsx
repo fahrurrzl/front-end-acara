@@ -1,6 +1,6 @@
 import DashboardLayout from "@/components/layouts/DashboardLayout";
 
-const DashboardAdminPage = () => {
+const AdminDashboardPage = () => {
   return (
     <DashboardLayout
       title="Dashboard admin"
@@ -11,4 +11,4 @@ const DashboardAdminPage = () => {
     </DashboardLayout>
   );
 };
-export default DashboardAdminPage;
+export default AdminDashboardPage;

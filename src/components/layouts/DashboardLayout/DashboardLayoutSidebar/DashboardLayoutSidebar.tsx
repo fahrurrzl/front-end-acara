@@ -2,7 +2,9 @@ import { cn } from "@/utils/cn";
 import { Button, Listbox, ListboxItem } from "@heroui/react";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
 import { useRouter } from "next/router";
+import { JSX } from "react";
 import { FiLogOut } from "react-icons/fi";
 
 interface SidebarItem {
@@ -53,6 +55,8 @@ const DashboardLayoutSidebar = (props: PropTypes) => {
                   item.href,
                 ),
               })}
+              as={Link}
+              href={item.href}
             >
               <p className="text-sm">{item.label}</p>
             </ListboxItem>
