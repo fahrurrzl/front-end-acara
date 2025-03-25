@@ -4,6 +4,7 @@ import { HeroUIProvider } from "@heroui/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { SessionProvider } from "next-auth/react";
 import { SessionExtended } from "./types/Auth";
+import { ToasterProvider } from "./context/ToasterContext";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -24,7 +25,9 @@ export default function Provider({
   return (
     <SessionProvider session={session}>
       <QueryClientProvider client={queryClient}>
-        <HeroUIProvider>{children}</HeroUIProvider>
+        <HeroUIProvider>
+          <ToasterProvider>{children}</ToasterProvider>
+        </HeroUIProvider>
       </QueryClientProvider>
     </SessionProvider>
   );
