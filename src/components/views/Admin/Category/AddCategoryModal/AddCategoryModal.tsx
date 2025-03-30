@@ -26,17 +26,22 @@ const AddCategoryModal = (props: PropTypes) => {
   const {
     control,
     errors,
-    reset,
     handleSubmitForm,
     handleAddCategory,
-    handleUploadIcon,
-    handleDeleteIcon,
-    isPendingDeleteFile,
     isPendingAddCategory,
     isSuccessAddCategory,
-    isPendingUploadFile,
+    handleUploadIcon,
+    isPendingMutateUploadFile,
+    handleDeleteIcon,
+    isPendingMutateDeleteFile,
     preview,
+    handleOnClose,
   } = useAddCategoryModal();
+
+  const disabledSubmit =
+    isPendingAddCategory ||
+    isPendingMutateUploadFile ||
+    isPendingMutateDeleteFile;
 
   useEffect(() => {
     if (isSuccessAddCategory) {
@@ -45,11 +50,13 @@ const AddCategoryModal = (props: PropTypes) => {
     }
   }, [isSuccessAddCategory]);
 
-  const disabledSubmit =
-    isPendingAddCategory || isPendingUploadFile || isPendingDeleteFile;
-
   return (
-    <Modal isOpen={isOpen} placement="center" scrollBehavior="inside">
+    <Modal
+      isOpen={isOpen}
+      placement="center"
+      scrollBehavior="inside"
+      onClose={() => handleOnClose(onClose)}
+    >
       <form onSubmit={handleSubmitForm(handleAddCategory)}>
         <ModalContent className="m-4">
           <ModalHeader>Add Category</ModalHeader>
@@ -95,12 +102,12 @@ const AddCategoryModal = (props: PropTypes) => {
                     {...field}
                     onDelete={() => handleDeleteIcon(onChange)}
                     onUpload={(files) => handleUploadIcon(files, onChange)}
-                    isDeleting={isPendingDeleteFile}
-                    isUploading={isPendingUploadFile}
+                    isUploading={isPendingMutateUploadFile}
+                    isDeleting={isPendingMutateDeleteFile}
                     isInvalid={errors.icon !== undefined}
                     errorMessage={errors.icon?.message}
-                    preview={typeof preview === "string" ? preview : ""}
                     isDroppable
+                    preview={typeof preview === "string" ? preview : ""}
                   />
                 )}
               />
@@ -110,7 +117,7 @@ const AddCategoryModal = (props: PropTypes) => {
             <Button
               variant="flat"
               color="danger"
-              onPress={onClose}
+              onPress={() => handleOnClose(onClose)}
               disabled={disabledSubmit}
             >
               Cancel

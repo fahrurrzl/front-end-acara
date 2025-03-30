@@ -21,7 +21,7 @@ const useMediaHandling = () => {
     callback(icon);
   };
 
-  const { mutate: mutateUploadFile, isPending: isPendingUploadFile } =
+  const { mutate: mutateUploadFile, isPending: isPendingMutateUploadFile } =
     useMutation({
       mutationFn: (variables: {
         file: File;
@@ -38,14 +38,14 @@ const useMediaHandling = () => {
   const deleteIcon = async (fileUrl: string, callback: () => void) => {
     const res = await uploadServices.deleteFile({ fileUrl });
     if (res.data.meta.status === 200) {
-      callback;
+      callback();
     }
   };
 
-  const { mutate: mutateDeleteFile, isPending: isPendingDeleteFile } =
+  const { mutate: mutateDeleteFile, isPending: isPendingMutateDeleteFile } =
     useMutation({
-      mutationFn: (variable: { fileUrl: string; callback: () => void }) =>
-        deleteIcon(variable.fileUrl, variable.callback),
+      mutationFn: (variables: { fileUrl: string; callback: () => void }) =>
+        deleteIcon(variables.fileUrl, variables.callback),
       onError: (error) => {
         setToaster({
           type: "error",
@@ -56,9 +56,9 @@ const useMediaHandling = () => {
 
   return {
     mutateUploadFile,
+    isPendingMutateUploadFile,
     mutateDeleteFile,
-    isPendingUploadFile,
-    isPendingDeleteFile,
+    isPendingMutateDeleteFile,
   };
 };
 

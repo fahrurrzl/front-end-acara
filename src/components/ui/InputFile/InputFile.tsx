@@ -12,9 +12,9 @@ interface PropTypes {
   onDelete?: () => void;
   isDeleting?: boolean;
   isDroppable?: boolean;
+  preview?: string;
   isInvalid?: boolean;
   errorMessage?: string;
-  preview?: string;
 }
 
 const InputFile = (props: PropTypes) => {
@@ -22,13 +22,13 @@ const InputFile = (props: PropTypes) => {
     name,
     className,
     isDroppable = false,
-    onDelete,
-    onUpload,
     isInvalid,
-    isDeleting,
-    isUploading,
     errorMessage,
+    onUpload,
+    isUploading,
     preview,
+    onDelete,
+    isDeleting,
   } = props;
   const drop = useRef<HTMLLabelElement>(null);
   const dropzoneId = useId();
@@ -83,7 +83,6 @@ const InputFile = (props: PropTypes) => {
             <div className="mb-2 w-1/2">
               <Image fill src={preview} alt="image" className="!relative" />
             </div>
-
             <Button
               isIconOnly
               onPress={onDelete}
@@ -98,7 +97,6 @@ const InputFile = (props: PropTypes) => {
             </Button>
           </div>
         )}
-
         {!preview && !isUploading && (
           <div className="flex flex-col items-center justify-center p-5">
             <CiSaveUp2 className="mb-2 h-10 w-10 text-gray-400" />

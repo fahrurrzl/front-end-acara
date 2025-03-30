@@ -18,23 +18,64 @@ const useAddCategoryModal = () => {
   const { setToaster } = useContext(ToasterContext);
   const {
     mutateUploadFile,
+    isPendingMutateUploadFile,
     mutateDeleteFile,
-    isPendingUploadFile,
-    isPendingDeleteFile,
+    isPendingMutateDeleteFile,
   } = useMediaHandling();
+
   const {
     control,
     handleSubmit: handleSubmitForm,
     formState: { errors },
     reset,
     watch,
-    getValues,
     setValue,
+    getValues,
   } = useForm({
     resolver: yupResolver(schema),
   });
 
   const preview = watch("icon");
+
+  const handleUploadIcon = (
+    files: FileList,
+    onChange: (files: FileList | undefined) => void,
+  ) => {
+    if (files.length !== 0) {
+      onChange(files);
+      mutateUploadFile({
+        file: files[0],
+        callback: (fileUrl: string) => {
+          setValue("icon", fileUrl);
+        },
+      });
+    }
+  };
+
+  const handleDeleteIcon = (
+    onChange: (files: FileList | undefined) => void,
+  ) => {
+    const fileUrl = getValues("icon");
+    if (typeof fileUrl === "string") {
+      mutateDeleteFile({ fileUrl, callback: () => onChange(undefined) });
+    }
+  };
+
+  const handleOnClose = (onClose: () => void) => {
+    const fileUrl = getValues("icon");
+    if (typeof fileUrl === "string") {
+      mutateDeleteFile({
+        fileUrl,
+        callback: () => {
+          reset();
+          onClose();
+        },
+      });
+    } else {
+      reset();
+      onClose();
+    }
+  };
 
   const addCategory = async (payload: ICategory) => {
     const res = await categoryServices.addCategory(payload);
@@ -62,30 +103,6 @@ const useAddCategoryModal = () => {
     },
   });
 
-  const handleUploadIcon = (
-    files: FileList,
-    onChange: (files: FileList | undefined) => void,
-  ) => {
-    if (files.length !== 0) {
-      onChange(files);
-      mutateUploadFile({
-        file: files[0],
-        callback: (fileUrl: string) => {
-          setValue("icon", fileUrl);
-        },
-      });
-    }
-  };
-
-  const handleDeleteIcon = (
-    onChange: (files: FileList | undefined) => void,
-  ) => {
-    const fileUrl = getValues("icon");
-    if (typeof fileUrl === "string") {
-      mutateDeleteFile({ fileUrl, callback: () => onChange(undefined) });
-    }
-  };
-
   const handleAddCategory = (data: ICategory) => mutateAddCategory(data);
 
   return {
@@ -97,9 +114,10 @@ const useAddCategoryModal = () => {
     isPendingAddCategory,
     isSuccessAddCategory,
     handleUploadIcon,
-    isPendingUploadFile,
+    isPendingMutateUploadFile,
     handleDeleteIcon,
-    isPendingDeleteFile,
+    isPendingMutateDeleteFile,
+    handleOnClose,
     preview,
   };
 };
