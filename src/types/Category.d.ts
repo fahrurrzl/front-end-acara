@@ -5,4 +5,4 @@ interface ICategory {
   icon?: string | FileList;
 }
 
-export { ICategory, ICategoryForm };
+export { ICategory };

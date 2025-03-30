@@ -7,11 +7,11 @@ import { CiSaveUp2, CiTrash } from "react-icons/ci";
 interface PropTypes {
   name: string;
   className?: string;
-  onUpload?: (e: FileList) => void;
-  onDelete?: () => void;
-  isDroppable?: boolean;
+  onUpload?: (files: FileList) => void;
   isUploading?: boolean;
+  onDelete?: () => void;
   isDeleting?: boolean;
+  isDroppable?: boolean;
   isInvalid?: boolean;
   errorMessage?: string;
   preview?: string;
