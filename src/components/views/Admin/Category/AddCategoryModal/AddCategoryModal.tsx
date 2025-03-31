@@ -17,11 +17,12 @@ import { useEffect } from "react";
 interface PropTypes {
   isOpen: boolean;
   onClose: () => void;
+  onOpenChange: () => void;
   refetchCategory: () => void;
 }
 
 const AddCategoryModal = (props: PropTypes) => {
-  const { isOpen, onClose, refetchCategory } = props;
+  const { isOpen, onClose, onOpenChange, refetchCategory } = props;
 
   const {
     control,
@@ -52,6 +53,7 @@ const AddCategoryModal = (props: PropTypes) => {
 
   return (
     <Modal
+      onOpenChange={onOpenChange}
       isOpen={isOpen}
       placement="center"
       scrollBehavior="inside"
