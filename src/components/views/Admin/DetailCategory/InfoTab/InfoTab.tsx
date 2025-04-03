@@ -31,13 +31,15 @@ const InfoTab = (props: PropTypes) => {
   } = useInfoTab();
 
   useEffect(() => {
-    resetUpdateInfo();
-  }, [isSuccessUpdate]);
-
-  useEffect(() => {
     setValueUpdateInfo("name", `${dataCategory?.name}`);
     setValueUpdateInfo("description", `${dataCategory?.description}`);
   }, [dataCategory]);
+
+  useEffect(() => {
+    if (isSuccessUpdate) {
+      resetUpdateInfo();
+    }
+  }, [isSuccessUpdate]);
   return (
     <Card className="w-full p-4 lg:w-1/2">
       <CardHeader className="flex-col items-center">
@@ -62,7 +64,6 @@ const InfoTab = (props: PropTypes) => {
                   type="text"
                   label="Name"
                   variant="bordered"
-                  autoFocus
                   isInvalid={errorsUpdateInfo.name !== undefined}
                   errorMessage={errorsUpdateInfo.name?.message}
                 />
