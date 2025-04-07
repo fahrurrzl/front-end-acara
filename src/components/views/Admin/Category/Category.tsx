@@ -13,36 +13,33 @@ import { Key, ReactNode, useCallback, useEffect } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 import { COLUMN_LIST_CATEGORY } from "./Category.constans";
 import useCategory from "./useCategory";
-import InputFile from "@/components/ui/InputFile";
 import AddCategoryModal from "./AddCategoryModal";
 import DeleteCategoryModal from "./DeleteCategoryModal";
+import useChangeUrl from "@/hooks/useChangeUrl";
+import DropdownAction from "@/components/commons/DropdownAction";
 
 const Category = () => {
   const { push, isReady, query } = useRouter();
   const {
-    setURL,
     dataCategory,
     isLoadingCategory,
-    currentPage,
-    currentLimit,
     isRefetchingCategory,
-    handleChangeLimit,
-    handleChangePage,
-    handleChangeSearch,
-    handleClearSearch,
+
     refetchCategory,
     selectedId,
     setSelectedId,
   } = useCategory();
 
-  const addCategoryModal = useDisclosure();
-  const deleteCategoryModal = useDisclosure();
+  const { setUrl } = useChangeUrl();
 
   useEffect(() => {
     if (isReady) {
-      setURL();
+      setUrl();
     }
   }, [isReady]);
+
+  const addCategoryModal = useDisclosure();
+  const deleteCategoryModal = useDisclosure();
 
   const renderCell = useCallback(
     (category: Record<string, unknown>, columnKey: Key) => {
@@ -55,31 +52,13 @@ const Category = () => {
           );
         case "actions":
           return (
-            <Dropdown>
-              <DropdownTrigger>
-                <Button isIconOnly size="sm" variant="light">
-                  <CiMenuKebab className="text-default-700" />
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu>
-                <DropdownItem
-                  key="detail-category-button"
-                  onPress={() => push(`/admin/category/${category._id}`)}
-                >
-                  Detail Category
-                </DropdownItem>
-                <DropdownItem
-                  key="delete-category-button"
-                  className="text-danger-500"
-                  onPress={() => {
-                    setSelectedId(`${category._id}`);
-                    deleteCategoryModal.onOpen();
-                  }}
-                >
-                  Delete
-                </DropdownItem>
-              </DropdownMenu>
-            </Dropdown>
+            <DropdownAction
+              onPressDetail={() => push(`/admin/category/${category._id}`)}
+              onPressDelete={() => {
+                setSelectedId(`${category._id}`);
+                deleteCategoryModal.onOpen();
+              }}
+            />
           );
         default:
           return cellValue as ReactNode;
@@ -97,14 +76,8 @@ const Category = () => {
           emptyContent="Category is empty"
           isLoading={isLoadingCategory || isRefetchingCategory}
           data={dataCategory?.data || []}
-          onChangeSearch={handleChangeSearch}
-          onClearSearch={handleClearSearch}
           onClickButtonTopContent={addCategoryModal.onOpen}
-          currentPage={Number(currentPage)}
-          limit={String(currentLimit)}
           totalPages={dataCategory?.pagination.totalPage}
-          onChangeLimit={handleChangeLimit}
-          onChangePage={handleChangePage}
         />
       )}
       <AddCategoryModal
