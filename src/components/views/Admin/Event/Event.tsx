@@ -1,21 +1,13 @@
 import DataTable from "@/components/ui/DataTable";
-import {
-  Button,
-  Chip,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-  useDisclosure,
-} from "@heroui/react";
+import { Chip, useDisclosure } from "@heroui/react";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { Key, ReactNode, useCallback, useEffect } from "react";
-import { CiMenuKebab } from "react-icons/ci";
 import { COLUMN_LIST_EVENT } from "./Event.constant";
 import useEvent from "./useEvent";
 import useChangeUrl from "@/hooks/useChangeUrl";
 import DropdownAction from "@/components/commons/DropdownAction";
+import AddEventModal from "./AddEventModal";
 
 const Event = () => {
   const { push, isReady, query } = useRouter();
@@ -86,7 +78,7 @@ const Event = () => {
       {Object.keys(query).length > 0 && (
         <DataTable
           renderCell={renderCell}
-          buttonTopContentLabel="Create New Category"
+          buttonTopContentLabel="Create New Event"
           columns={COLUMN_LIST_EVENT}
           emptyContent="Category is empty"
           isLoading={isLoadingEvents || isRefetchingEvents}
@@ -95,6 +87,8 @@ const Event = () => {
           totalPages={dataEvents?.pagination.totalPage}
         />
       )}
+
+      <AddEventModal {...addEventModal} refetchEvent={refetchEvents} />
     </section>
   );
 };

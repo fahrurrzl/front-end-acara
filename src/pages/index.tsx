@@ -10,7 +10,7 @@ export default function Home() {
       className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
     >
       <PageHead />
-      <Button color="warning">Click me</Button>
+      <Button color="danger">Click me</Button>
     </main>
   );
 }
