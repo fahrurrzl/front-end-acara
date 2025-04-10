@@ -14,7 +14,7 @@ const Toaster = (props: IToaster) => {
     <div
       role="alert"
       aria-labelledby="toaster-label"
-      className="fixed right-8 top-8 max-w-xs rounded-lg border border-gray-200 bg-white shadow-sm"
+      className="fixed right-8 top-8 z-50 max-w-xs rounded-lg border border-gray-200 bg-white shadow-sm"
     >
       <div className="flex items-center gap-2 p-4">
         {iconList[type]}
