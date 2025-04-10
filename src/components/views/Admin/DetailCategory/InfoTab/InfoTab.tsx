@@ -91,7 +91,7 @@ const InfoTab = (props: PropTypes) => {
             type="submit"
             color="danger"
             className="mt-2 disabled:bg-default-500"
-            disabled={isPendingUpdate}
+            disabled={isPendingUpdate || !dataCategory._id}
           >
             {isPendingUpdate ? (
               <Spinner size="sm" color="white" />

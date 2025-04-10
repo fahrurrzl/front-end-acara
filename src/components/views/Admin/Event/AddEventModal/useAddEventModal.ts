@@ -55,7 +55,6 @@ const useAddEventModal = () => {
   const preview = watch("banner");
   const fileUrl = getValues("banner");
   setValue("startDate", now(getLocalTimeZone()));
-  setValue("endDate", now(getLocalTimeZone()));
 
   const handleUploadBanner = (
     files: FileList,
@@ -113,10 +112,10 @@ const useAddEventModal = () => {
       isFeatured: Boolean(data.isFeatured),
       isPublished: Boolean(data.isPublished),
       isOnline: Boolean(data.isOnline),
-      startDate: toDateStandard(data.startDate),
-      endDate: toDateStandard(data.endDate),
+      startDate: data.startDate ? toDateStandard(data.startDate) : "",
+      endDate: data.endDate ? toDateStandard(data.endDate) : "",
       location: {
-        region: data.region,
+        region: data.region ? data.region : "",
         coordinates: [Number(data.latitude), Number(data.longitude)],
       },
       banner: data.banner,
@@ -131,8 +130,9 @@ const useAddEventModal = () => {
     enabled: true,
   });
 
-  const [searchRegency, setSearchRegency] = useState("");
   // get region / location
+  const [searchRegency, setSearchRegency] = useState("");
+
   const { data: dataRegion } = useQuery({
     queryKey: ["Region", searchRegency],
     queryFn: () => eventServices.searchLocationByRegency(`${searchRegency}`),

@@ -61,7 +61,7 @@ const Event = () => {
         case "actions":
           return (
             <DropdownAction
-              onPressDetail={() => push(`/admin/event/${event.id}`)}
+              onPressDetail={() => push(`/admin/event/${event._id}`)}
               onPressDelete={() => {
                 setSelectedId(event._id as string);
                 deleteEventModal.onOpen();

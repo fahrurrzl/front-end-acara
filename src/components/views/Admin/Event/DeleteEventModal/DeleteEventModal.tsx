@@ -53,7 +53,7 @@ const DeleteEventModal = (props: PropTypes) => {
         <ModalHeader>Delete Category</ModalHeader>
         <ModalBody>
           <p className="text-medium">
-            Are you sure you want delete this category?
+            Are you sure you want delete this event?
           </p>
         </ModalBody>
         <ModalFooter>
