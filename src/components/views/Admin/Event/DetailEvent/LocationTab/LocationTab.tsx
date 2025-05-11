@@ -1,4 +1,3 @@
-import { ICategory } from "@/types/Category";
 import {
   Autocomplete,
   AutocompleteItem,
@@ -41,7 +40,6 @@ const LocationTab = (props: PropTypes) => {
     errorsUpdateLocation,
     handleSubmitUpdateLocation,
     resetUpdateLocation,
-    setValueUpdateLocation,
     dataRegion,
     handleSearchRegency,
     searchRegency,
@@ -49,16 +47,12 @@ const LocationTab = (props: PropTypes) => {
 
   useEffect(() => {
     if (dataLocation) {
-      setValueUpdateLocation("isOnline", `${dataLocation?.isOnline}`);
-      setValueUpdateLocation("region", `${dataLocation?.location?.region}`);
-      setValueUpdateLocation(
-        "latitude",
-        `${dataLocation?.location?.coordinates?.[0]}`,
-      );
-      setValueUpdateLocation(
-        "longitude",
-        `${dataLocation?.location?.coordinates?.[1]}`,
-      );
+      resetUpdateLocation({
+        isOnline: `${dataLocation?.isOnline}`,
+        region: `${dataLocation?.location?.region}`,
+        latitude: `${dataLocation?.location?.coordinates?.[0]}`,
+        longitude: `${dataLocation?.location?.coordinates?.[1]}`,
+      });
     }
   }, [dataLocation]);
 
