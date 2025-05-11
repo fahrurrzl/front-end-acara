@@ -7,7 +7,7 @@ interface IEvent {
   category?: string;
   startDate?: string;
   endDate?: string;
-  isPublished?: boolean | string;
+  isPublish?: boolean | string;
   isFeatured?: boolean | string;
   description?: string;
   isOnline?: boolean | string;

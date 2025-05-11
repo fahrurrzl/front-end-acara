@@ -34,20 +34,21 @@ const InfoTab = (props: PropTypes) => {
     errorsUpdateInfo,
     handleSubmitUpdateInfo,
     resetUpdateInfo,
-    setValueUpdateInfo,
     dataCategory,
   } = useInfoTab();
 
   useEffect(() => {
     if (dataEvent) {
-      setValueUpdateInfo("name", `${dataEvent?.name}`);
-      setValueUpdateInfo("description", `${dataEvent?.description}`);
-      setValueUpdateInfo("slug", `${dataEvent?.slug}`);
-      setValueUpdateInfo("category", `${dataEvent?.category}`);
-      setValueUpdateInfo("startDate", toInputDate(`${dataEvent?.startDate}`));
-      setValueUpdateInfo("endDate", toInputDate(`${dataEvent?.endDate}`));
-      setValueUpdateInfo("isPublished", `${dataEvent?.isPublished}`);
-      setValueUpdateInfo("isFeatured", `${dataEvent?.isFeatured}`);
+      resetUpdateInfo({
+        name: dataEvent?.name,
+        description: dataEvent?.description,
+        slug: dataEvent?.slug,
+        category: dataEvent?.category,
+        startDate: toInputDate(`${dataEvent?.startDate}`),
+        endDate: toInputDate(`${dataEvent?.endDate}`),
+        isPublish: `${dataEvent?.isPublish}`,
+        isFeatured: `${dataEvent?.isFeatured}`,
+      });
     }
   }, [dataEvent]);
 
@@ -104,31 +105,35 @@ const InfoTab = (props: PropTypes) => {
             />
           </Skeleton>
 
-          <Skeleton isLoaded={!!dataEvent?.category} className="rounded-lg">
-            <Controller
-              name="category"
-              control={controlUpdateInfo}
-              render={({ field: { onChange, ...field } }) => (
-                <Autocomplete
-                  {...field}
-                  defaultItems={dataCategory?.data.data || []}
-                  label="Category"
-                  variant="bordered"
-                  defaultSelectedKey={dataEvent?.category}
-                  isInvalid={errorsUpdateInfo.category !== undefined}
-                  errorMessage={errorsUpdateInfo.category?.message}
-                  onSelectionChange={(value) => onChange(value)}
-                  placeholder="Search category here..."
-                >
-                  {(category: ICategory) => (
-                    <AutocompleteItem key={category._id}>
-                      {category.name}
-                    </AutocompleteItem>
-                  )}
-                </Autocomplete>
-              )}
-            />
-          </Skeleton>
+          {dataCategory?.data.data ? (
+            <Skeleton isLoaded={!!dataEvent?.category} className="rounded-lg">
+              <Controller
+                name="category"
+                control={controlUpdateInfo}
+                render={({ field: { onChange, ...field } }) => (
+                  <Autocomplete
+                    {...field}
+                    defaultItems={dataCategory?.data.data || []}
+                    label="Category"
+                    variant="bordered"
+                    defaultSelectedKey={dataEvent?.category}
+                    isInvalid={errorsUpdateInfo.category !== undefined}
+                    errorMessage={errorsUpdateInfo.category?.message}
+                    onSelectionChange={(value) => onChange(value)}
+                    placeholder="Search category here..."
+                  >
+                    {(category: ICategory) => (
+                      <AutocompleteItem key={category._id}>
+                        {category.name}
+                      </AutocompleteItem>
+                    )}
+                  </Autocomplete>
+                )}
+              />
+            </Skeleton>
+          ) : (
+            <Skeleton className="h-12 w-full rounded-lg" />
+          )}
 
           <Skeleton isLoaded={!!dataEvent?.startDate} className="rounded-lg">
             <Controller
@@ -141,7 +146,6 @@ const InfoTab = (props: PropTypes) => {
                   variant="bordered"
                   hideTimeZone
                   showMonthAndYearPickers
-                  defaultValue={toInputDate(`${dataEvent?.startDate}`)}
                   isInvalid={errorsUpdateInfo.startDate !== undefined}
                   errorMessage={errorsUpdateInfo.startDate?.message}
                 />
@@ -160,7 +164,6 @@ const InfoTab = (props: PropTypes) => {
                   variant="bordered"
                   hideTimeZone
                   showMonthAndYearPickers
-                  defaultValue={toInputDate(`${dataEvent?.endDate}`)}
                   isInvalid={errorsUpdateInfo.endDate !== undefined}
                   errorMessage={errorsUpdateInfo.endDate?.message}
                 />
@@ -170,7 +173,7 @@ const InfoTab = (props: PropTypes) => {
 
           <Skeleton isLoaded={!!dataEvent} className="rounded-lg">
             <Controller
-              name="isPublished"
+              name="isPublish"
               control={controlUpdateInfo}
               render={({ field }) => (
                 <Select
@@ -178,10 +181,10 @@ const InfoTab = (props: PropTypes) => {
                   label="Status"
                   variant="bordered"
                   defaultSelectedKeys={[
-                    dataEvent?.isPublished ? "true" : "false",
+                    dataEvent?.isPublish ? "true" : "false",
                   ]}
-                  isInvalid={errorsUpdateInfo.isPublished !== undefined}
-                  errorMessage={errorsUpdateInfo.isPublished?.message}
+                  isInvalid={errorsUpdateInfo.isPublish !== undefined}
+                  errorMessage={errorsUpdateInfo.isPublish?.message}
                   disallowEmptySelection
                 >
                   <SelectItem key="true" textValue="Publish">
