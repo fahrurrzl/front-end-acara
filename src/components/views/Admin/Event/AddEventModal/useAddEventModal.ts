@@ -25,6 +25,7 @@ const schema = yup.object().shape({
   description: yup.string().required("Please select description"),
   isOnline: yup.string().required("Please select online or offline"),
   region: yup.string().required("Please select region"),
+  address: yup.string().required("Pleas input address"),
   latitude: yup.string().required("Please input latitude coordinate"),
   longitude: yup.string().required("Please input longitude coordinate"),
   banner: yup.mixed<FileList | string>().required("Please input icon"),

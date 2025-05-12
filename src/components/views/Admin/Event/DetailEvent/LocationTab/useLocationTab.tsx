@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 
 const schemaUpdateLocation = yup.object().shape({
+  address: yup.string().required("Pleas input address"),
   isOnline: yup.string().required("Please select online or offline"),
   region: yup.string().required("Please select region"),
   latitude: yup.string().required("Please input latitude coordinate"),
