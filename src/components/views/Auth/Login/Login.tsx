@@ -106,11 +106,7 @@ const Login = () => {
             />
 
             <Button type="submit" size="lg" color="danger">
-              {isPendingLogin ? (
-                <Spinner color="white" size="sm" />
-              ) : (
-                "Register"
-              )}
+              {isPendingLogin ? <Spinner color="white" size="sm" /> : "Login"}
             </Button>
           </form>
         </CardBody>

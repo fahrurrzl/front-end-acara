@@ -1,6 +1,5 @@
 import { ToasterContext } from "@/context/ToasterContext";
 import eventServices from "@/services/event.service";
-import { ICategory } from "@/types/Category";
 import { IEvent, IEventForm } from "@/types/Event";
 import { toDateStandard } from "@/utils/date";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -58,10 +57,19 @@ const useDetailEvent = () => {
   const handleUpdateEvent = (data: IEvent) => mutateUpdateEvent(data);
 
   const handleUpdateInfo = (data: IEventForm) => {
+    const isFeatured =
+      typeof data.isFeatured === "string"
+        ? data.isFeatured.toLowerCase() === "true"
+        : !!data.isFeatured;
+    const isPublish =
+      typeof data.isPublish === "string"
+        ? data.isPublish.toLowerCase() === "true"
+        : !!data.isPublish;
+
     const payload = {
       ...data,
-      isFeatured: Boolean(data.isFeatured),
-      isPublished: Boolean(data.isPublished),
+      isFeatured,
+      isPublish,
       startDate: data.startDate ? toDateStandard(data.startDate) : "",
       endDate: data.endDate ? toDateStandard(data.endDate) : "",
       banner: data.banner,
@@ -70,9 +78,14 @@ const useDetailEvent = () => {
   };
 
   const handleUpdateLocation = (data: IEventForm) => {
+    const isOnline =
+      typeof data.isOnline === "string"
+        ? data.isOnline.toLowerCase() === "true"
+        : !!data.isOnline;
     const payload = {
-      isOnline: Boolean(data.isOnline),
+      isOnline,
       location: {
+        address: data.address,
         region: data.region ? data.region : "",
         coordinates: [Number(data.latitude), Number(data.longitude)],
       },

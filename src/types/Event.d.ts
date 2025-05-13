@@ -7,18 +7,20 @@ interface IEvent {
   category?: string;
   startDate?: string;
   endDate?: string;
-  isPublished?: boolean | string;
+  isPublish?: boolean | string;
   isFeatured?: boolean | string;
   description?: string;
   isOnline?: boolean | string;
   banner?: string | FileList;
   location?: {
     region?: string;
+    address?: string;
     coordinates?: number[];
   };
 }
 
 interface IEventForm extends IEvent {
+  address?: string;
   region?: string;
   startDate?: DateValue;
   endDate?: DateValue;

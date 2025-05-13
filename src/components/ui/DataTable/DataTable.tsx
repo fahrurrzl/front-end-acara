@@ -25,6 +25,8 @@ interface PropTypes {
   emptyContent: string;
   totalPages: number;
   isLoading?: boolean;
+  isShowSearch?: boolean;
+  isShowLimit?: boolean;
   onClickButtonTopContent?: () => void;
   renderCell: (item: Record<string, unknown>, columnKey: Key) => ReactNode;
 }
@@ -39,6 +41,8 @@ const DataTable = (props: PropTypes) => {
     isLoading,
     onClickButtonTopContent,
     renderCell,
+    isShowLimit = true,
+    isShowSearch = true,
   } = props;
 
   const {
@@ -53,14 +57,16 @@ const DataTable = (props: PropTypes) => {
   const TopContent = useMemo(() => {
     return (
       <div className="flex flex-col-reverse justify-between gap-y-4 lg:flex-row lg:items-center">
-        <Input
-          isClearable
-          className="w-full sm:w-[24%]"
-          placeholder="Search by name..."
-          startContent={<CiSearch />}
-          onClear={handleClearSearch}
-          onChange={handleChangeSearch}
-        />
+        {isShowSearch && (
+          <Input
+            isClearable
+            className="w-full sm:w-[24%]"
+            placeholder="Search by name..."
+            startContent={<CiSearch />}
+            onClear={handleClearSearch}
+            onChange={handleChangeSearch}
+          />
+        )}
         {buttonTopContentLabel && (
           <Button color="danger" onPress={onClickButtonTopContent}>
             {buttonTopContentLabel}
@@ -78,19 +84,21 @@ const DataTable = (props: PropTypes) => {
   const BottomContent = useMemo(() => {
     return (
       <div className="flex items-center justify-center lg:justify-between">
-        <Select
-          className="hidden max-w-32 lg:block"
-          size="md"
-          selectedKeys={[`${currentLimit}`]}
-          selectionMode="single"
-          onChange={handleChangeLimit}
-          startContent={<p className="text-small">Show:</p>}
-          disallowEmptySelection
-        >
-          {LIMIT_LISTS.map((item) => (
-            <SelectItem key={item.value}>{item.label}</SelectItem>
-          ))}
-        </Select>
+        {isShowLimit && (
+          <Select
+            className="hidden max-w-32 lg:block"
+            size="md"
+            selectedKeys={[`${currentLimit}`]}
+            selectionMode="single"
+            onChange={handleChangeLimit}
+            startContent={<p className="text-small">Show:</p>}
+            disallowEmptySelection
+          >
+            {LIMIT_LISTS.map((item) => (
+              <SelectItem key={item.value}>{item.label}</SelectItem>
+            ))}
+          </Select>
+        )}
 
         {totalPages > 1 && (
           <Pagination
