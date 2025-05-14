@@ -1,22 +1,11 @@
-import InputFile from "@/components/ui/InputFile";
 import {
   Button,
   Card,
   CardBody,
   CardHeader,
-  Skeleton,
-  Spinner,
   useDisclosure,
 } from "@heroui/react";
-import { Controller } from "react-hook-form";
-import {
-  Fragment,
-  Key,
-  ReactNode,
-  useCallback,
-  useEffect,
-  useState,
-} from "react";
+import { Fragment, Key, ReactNode, useCallback, useState } from "react";
 import { IEvent } from "@/types/Event";
 import useTicketTab from "./useTicketTab";
 import { convertIDR } from "@/utils/currency";
@@ -26,6 +15,7 @@ import { COLUMN_LIST_TICKET } from "./Ticket.constant";
 import AddTicketModal from "./AddTicketModal";
 import { ITicket } from "@/types/Ticket";
 import DeleteTicketModal from "./DeleteTicketModal";
+import UpdateTicketModal from "./UpdateTicketModal";
 
 interface propTypes {
   onUpdate: (data: IEvent) => void;
@@ -39,6 +29,7 @@ const CoverTab = (props: propTypes) => {
   const { dataTicket, isRefetchingTicket, isPendingTicket, refetchTicket } =
     useTicketTab();
 
+  const addTicketModal = useDisclosure();
   const detailTicketModal = useDisclosure();
   const deleteTicketModal = useDisclosure();
 
@@ -53,10 +44,13 @@ const CoverTab = (props: propTypes) => {
         case "actions":
           return (
             <DropdownAction
-              onPressDetail={() => {}}
-              onPressDelete={() => {
-                deleteTicketModal.onOpen();
+              onPressDetail={() => {
                 setSelectedTicket(ticket as ITicket);
+                detailTicketModal.onOpen();
+              }}
+              onPressDelete={() => {
+                setSelectedTicket(ticket as ITicket);
+                deleteTicketModal.onOpen();
               }}
             />
           );
@@ -77,7 +71,7 @@ const CoverTab = (props: propTypes) => {
               Manage ticket of this event
             </p>
           </div>
-          <Button onPress={detailTicketModal.onOpen} color="danger">
+          <Button onPress={addTicketModal.onOpen} color="danger">
             Add New Ticket
           </Button>
         </CardHeader>
@@ -94,12 +88,21 @@ const CoverTab = (props: propTypes) => {
           />
         </CardBody>
       </Card>
-      <AddTicketModal {...detailTicketModal} refetchTicket={refetchTicket} />
+
+      <AddTicketModal {...addTicketModal} refetchTicket={refetchTicket} />
+
       <DeleteTicketModal
         {...deleteTicketModal}
         selectedTicket={selectedTicket}
         setSelectedTicket={setSelectedTicket}
         refetchTicket={refetchTicket}
+      />
+
+      <UpdateTicketModal
+        {...detailTicketModal}
+        refetchTicket={refetchTicket}
+        selectedTicket={selectedTicket}
+        setSelectedTicket={setSelectedTicket}
       />
     </Fragment>
   );
