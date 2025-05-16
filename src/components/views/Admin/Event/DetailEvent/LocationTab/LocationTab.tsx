@@ -10,7 +10,6 @@ import {
   SelectItem,
   Skeleton,
   Spinner,
-  Textarea,
 } from "@heroui/react";
 import useLocationTab from "./useLocationTab";
 import { Controller } from "react-hook-form";
@@ -77,7 +76,7 @@ const LocationTab = (props: PropTypes) => {
         >
           <p className="text-sm font-medium text-default-700">Location</p>
 
-          <Skeleton isLoaded={!!dataLocation?.isOnline} className="rounded-lg">
+          <Skeleton isLoaded={!!dataLocation} className="rounded-lg">
             <Controller
               name="isOnline"
               control={controlUpdateLocation}
@@ -150,7 +149,10 @@ const LocationTab = (props: PropTypes) => {
             )}
           </Skeleton>
 
-          <Skeleton isLoaded={!!dataLocation} className="rounded-lg">
+          <Skeleton
+            isLoaded={!!dataLocation?.location?.address}
+            className="rounded-lg"
+          >
             <Controller
               name="address"
               control={controlUpdateLocation}

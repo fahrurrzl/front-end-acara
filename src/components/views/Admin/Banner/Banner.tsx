@@ -7,6 +7,7 @@ import { COLUMN_LIST_BANNER } from "./Banner.constans";
 import useChangeUrl from "@/hooks/useChangeUrl";
 import DropdownAction from "@/components/commons/DropdownAction";
 import useBanner from "./useBanner";
+import AddBannerModal from "./AddBannerModal";
 
 const Banner = () => {
   const { push, isReady, query } = useRouter();
@@ -19,7 +20,7 @@ const Banner = () => {
     selectedId,
     setSelectedId,
   } = useBanner();
-  console.log(dataBanners);
+
   const { setUrl } = useChangeUrl();
 
   useEffect(() => {
@@ -43,6 +44,7 @@ const Banner = () => {
               alt="Banner Image"
               width={300}
               height={200}
+              className="rounded-lg"
             />
           );
         case "isShow":
@@ -76,15 +78,17 @@ const Banner = () => {
       {Object.keys(query).length > 0 && (
         <DataTable
           renderCell={renderCell}
-          buttonTopContentLabel="Create New Category"
+          buttonTopContentLabel="Create New Banner"
           columns={COLUMN_LIST_BANNER}
-          emptyContent="Category is empty"
+          emptyContent="Banner is empty"
           isLoading={isLoadingBanners || isRefetchingBanners}
           data={dataBanners?.data || []}
           onClickButtonTopContent={addBannerModal.onOpen}
           totalPages={dataBanners?.pagination.totalPage}
         />
       )}
+
+      <AddBannerModal {...addBannerModal} refetchBanners={refetchBanners} />
     </section>
   );
 };

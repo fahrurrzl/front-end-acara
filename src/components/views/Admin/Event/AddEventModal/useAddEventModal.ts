@@ -108,30 +108,14 @@ const useAddEventModal = () => {
   });
 
   const handleAddEvent = (data: IEventForm) => {
-    const isFeatured =
-      typeof data.isFeatured === "string"
-        ? data.isFeatured.toLowerCase() === "true"
-        : !!data.isFeatured;
-
-    const isPublish =
-      typeof data.isPublish === "string"
-        ? data.isPublish.toLowerCase() === "true"
-        : !!data.isPublish;
-
-    const isOnline =
-      typeof data.isOnline === "string"
-        ? data.isOnline.toLowerCase() === "true"
-        : !!data.isOnline;
     const payload = {
       ...data,
-      isFeatured,
-      isPublish,
-      isOnline,
       startDate: data.startDate ? toDateStandard(data.startDate) : "",
       endDate: data.endDate ? toDateStandard(data.endDate) : "",
       location: {
         region: data.region ? data.region : "",
         coordinates: [Number(data.latitude), Number(data.longitude)],
+        address: data.address,
       },
       banner: data.banner,
     };

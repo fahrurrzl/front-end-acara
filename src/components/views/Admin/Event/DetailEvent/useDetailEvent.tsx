@@ -57,19 +57,8 @@ const useDetailEvent = () => {
   const handleUpdateEvent = (data: IEvent) => mutateUpdateEvent(data);
 
   const handleUpdateInfo = (data: IEventForm) => {
-    const isFeatured =
-      typeof data.isFeatured === "string"
-        ? data.isFeatured.toLowerCase() === "true"
-        : !!data.isFeatured;
-    const isPublish =
-      typeof data.isPublish === "string"
-        ? data.isPublish.toLowerCase() === "true"
-        : !!data.isPublish;
-
     const payload = {
       ...data,
-      isFeatured,
-      isPublish,
       startDate: data.startDate ? toDateStandard(data.startDate) : "",
       endDate: data.endDate ? toDateStandard(data.endDate) : "",
       banner: data.banner,
@@ -82,6 +71,7 @@ const useDetailEvent = () => {
       typeof data.isOnline === "string"
         ? data.isOnline.toLowerCase() === "true"
         : !!data.isOnline;
+
     const payload = {
       isOnline,
       location: {
