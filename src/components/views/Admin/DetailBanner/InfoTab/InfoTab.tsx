@@ -5,6 +5,8 @@ import {
   CardBody,
   CardHeader,
   Input,
+  Select,
+  SelectItem,
   Skeleton,
   Spinner,
   Textarea,
@@ -12,16 +14,17 @@ import {
 import useInfoTab from "./useInfoTab";
 import { Controller } from "react-hook-form";
 import { useEffect } from "react";
+import { IBanner } from "@/types/Banner";
 
 interface PropTypes {
-  dataCategory: ICategory;
-  onUpdate: (data: ICategory) => void;
+  dataBanner: IBanner;
+  onUpdate: (data: IBanner) => void;
   isPendingUpdate: boolean;
   isSuccessUpdate: boolean;
 }
 
 const InfoTab = (props: PropTypes) => {
-  const { dataCategory, onUpdate, isPendingUpdate, isSuccessUpdate } = props;
+  const { dataBanner, onUpdate, isPendingUpdate, isSuccessUpdate } = props;
   const {
     controlUpdateInfo,
     errorsUpdateInfo,
@@ -30,13 +33,13 @@ const InfoTab = (props: PropTypes) => {
   } = useInfoTab();
 
   useEffect(() => {
-    if (dataCategory) {
+    if (dataBanner) {
       resetUpdateInfo({
-        name: dataCategory?.name,
-        description: dataCategory?.description,
+        name: dataBanner?.name,
+        isShow: `${dataBanner?.isShow}`,
       });
     }
-  }, [dataCategory, resetUpdateInfo]);
+  }, [dataBanner, resetUpdateInfo]);
 
   useEffect(() => {
     if (isSuccessUpdate) {
@@ -46,9 +49,9 @@ const InfoTab = (props: PropTypes) => {
   return (
     <Card className="w-full p-4 lg:w-1/2">
       <CardHeader className="flex-col items-center">
-        <h1 className="w-full text-xl font-bold">Category Info</h1>
+        <h1 className="w-full text-xl font-bold">Banner Info</h1>
         <p className="w-full text-sm text-default-400">
-          Manage info of this category
+          Manage info of this banner
         </p>
       </CardHeader>
       <CardBody>
@@ -56,8 +59,8 @@ const InfoTab = (props: PropTypes) => {
           className="flex flex-col gap-4"
           onSubmit={handleSubmitUpdateInfo(onUpdate)}
         >
-          <p className="text-sm font-medium text-default-700">Info Icon</p>
-          <Skeleton isLoaded={!!dataCategory?.name} className="rounded-lg">
+          <p className="text-sm font-medium text-default-700">Info Banner</p>
+          <Skeleton isLoaded={!!dataBanner?.name} className="rounded-lg">
             <Controller
               name="name"
               control={controlUpdateInfo}
@@ -74,18 +77,27 @@ const InfoTab = (props: PropTypes) => {
             />
           </Skeleton>
 
-          <Skeleton isLoaded={!!dataCategory?.name} className="rounded-lg">
+          <Skeleton isLoaded={!!dataBanner} className="rounded-lg">
             <Controller
-              name="description"
+              name="isShow"
               control={controlUpdateInfo}
               render={({ field }) => (
-                <Textarea
+                <Select
                   {...field}
-                  label="Description"
+                  label="Status"
                   variant="bordered"
-                  isInvalid={errorsUpdateInfo.description !== undefined}
-                  errorMessage={errorsUpdateInfo.description?.message}
-                />
+                  defaultSelectedKeys={[dataBanner?.isShow ? "true" : "false"]}
+                  isInvalid={errorsUpdateInfo.isShow !== undefined}
+                  errorMessage={errorsUpdateInfo.isShow?.message}
+                  disallowEmptySelection
+                >
+                  <SelectItem key="true" textValue="Show">
+                    Show
+                  </SelectItem>
+                  <SelectItem key="false" textValue="Hide">
+                    Hide
+                  </SelectItem>
+                </Select>
               )}
             />
           </Skeleton>
@@ -94,7 +106,7 @@ const InfoTab = (props: PropTypes) => {
             type="submit"
             color="danger"
             className="mt-2 disabled:bg-default-500"
-            disabled={isPendingUpdate || !dataCategory?._id}
+            disabled={isPendingUpdate || !dataBanner._id}
           >
             {isPendingUpdate ? (
               <Spinner size="sm" color="white" />

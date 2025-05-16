@@ -55,7 +55,7 @@ const Banner = () => {
               color={cellValue ? "success" : "warning"}
               variant="flat"
             >
-              {cellValue ? "Published" : "Unpublished"}
+              {cellValue ? "Show" : "Hide"}
             </Chip>
           );
         case "actions":
