@@ -1,9 +1,7 @@
 import { ToasterContext } from "@/context/ToasterContext";
 import useMediaHandling from "@/hooks/useMediaHandling";
 import bannerServices from "@/services/banner.service";
-import categoryServices from "@/services/category.service";
 import { IBanner } from "@/types/Banner";
-import { ICategory } from "@/types/Category";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useMutation } from "@tanstack/react-query";
 import { useContext } from "react";
