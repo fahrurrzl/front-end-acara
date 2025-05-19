@@ -2,6 +2,7 @@ import { ToasterContext } from "@/context/ToasterContext";
 import eventServices from "@/services/event.service";
 import { IEvent, IEventForm } from "@/types/Event";
 import { toDateStandard } from "@/utils/date";
+import { DateValue } from "@heroui/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import { useContext } from "react";
@@ -59,8 +60,8 @@ const useDetailEvent = () => {
   const handleUpdateInfo = (data: IEventForm) => {
     const payload = {
       ...data,
-      startDate: data.startDate ? toDateStandard(data.startDate) : "",
-      endDate: data.endDate ? toDateStandard(data.endDate) : "",
+      startDate: toDateStandard(data.startDate as DateValue),
+      endDate: toDateStandard(data.endDate as DateValue),
       banner: data.banner,
     };
     mutateUpdateEvent(payload);

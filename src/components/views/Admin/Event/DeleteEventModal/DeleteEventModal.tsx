@@ -51,7 +51,7 @@ const DeleteEventModal = (props: PropTypes) => {
       scrollBehavior="inside"
     >
       <ModalContent className="m-4">
-        <ModalHeader>Delete Category</ModalHeader>
+        <ModalHeader>Delete Event</ModalHeader>
         <ModalBody>
           <p className="text-medium">
             Are you sure you want delete this event?

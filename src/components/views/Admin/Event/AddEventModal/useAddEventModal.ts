@@ -55,7 +55,6 @@ const useAddEventModal = () => {
 
   const preview = watch("banner");
   const fileUrl = getValues("banner");
-  setValue("startDate", now(getLocalTimeZone()));
 
   const handleUploadBanner = (
     files: FileList,
@@ -156,6 +155,7 @@ const useAddEventModal = () => {
     isPendingMutateDeleteFile,
     handleOnClose,
     preview,
+    setValue,
 
     dataCategory,
 
