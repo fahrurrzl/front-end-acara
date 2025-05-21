@@ -25,4 +25,19 @@ const toInputDate = (date: string) => {
   return parseAbsoluteToLocal(`${date.replace(" ", "T")}+07:00`);
 };
 
-export { toDateStandard, toInputDate };
+const convertTime = (isoDate: string) => {
+  const dateObject = new Date(isoDate);
+
+  const date = dateObject.toLocaleString("id-ID", {
+    month: "short",
+    day: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZone: "Asia/Jakarta",
+  });
+
+  return `${date} WIB`;
+};
+
+export { toDateStandard, toInputDate, convertTime };
