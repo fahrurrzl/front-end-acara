@@ -8,7 +8,6 @@ import { IEvent, IEventForm } from "@/types/Event";
 import { toDateStandard } from "@/utils/date";
 import { DateValue } from "@heroui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { getLocalTimeZone, now } from "@internationalized/date";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";

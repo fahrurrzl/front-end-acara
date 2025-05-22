@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import useDebounce from "./useDebounce";
 import { DELAY, LIMIT_DEFAULT, PAGE_DEFAULT } from "@/constants/list.constants";
-import { ChangeEvent, useEffect } from "react";
+import { ChangeEvent } from "react";
 
 const useChangeUrl = () => {
   const router = useRouter();
@@ -10,6 +10,9 @@ const useChangeUrl = () => {
   const currentPage = router.query.page;
   const currentLimit = router.query.limit;
   const currentSearch = router.query.search;
+  const currentCategory = router.query.category;
+  const currentIsFeatured = router.query.isFeatured;
+  const currentIsOnline = router.query.isOnline;
 
   const setUrl = () => {
     router.replace({
@@ -17,6 +20,18 @@ const useChangeUrl = () => {
         limit: currentLimit || LIMIT_DEFAULT,
         page: currentPage || PAGE_DEFAULT,
         search: currentSearch || "",
+      },
+    });
+  };
+
+  const setUrlExplore = () => {
+    router.replace({
+      query: {
+        limit: currentLimit || LIMIT_DEFAULT,
+        page: currentPage || PAGE_DEFAULT,
+        category: currentCategory || "",
+        isFeatured: currentIsFeatured || "",
+        isOnline: currentIsOnline || "",
       },
     });
   };
@@ -64,16 +79,53 @@ const useChangeUrl = () => {
     });
   };
 
+  const handleChangeCategory = (category: string) => {
+    router.push({
+      query: {
+        ...router.query,
+        category,
+        page: PAGE_DEFAULT,
+      },
+    });
+  };
+
+  const handleChangeIsFeatured = (isFeatured: string) => {
+    router.push({
+      query: {
+        ...router.query,
+        isFeatured,
+        page: PAGE_DEFAULT,
+      },
+    });
+  };
+
+  const handleChangeIsOnline = (isOnline: string) => {
+    router.push({
+      query: {
+        ...router.query,
+        isOnline,
+        page: PAGE_DEFAULT,
+      },
+    });
+  };
+
   return {
     currentPage,
     currentLimit,
     currentSearch,
+    currentCategory,
+    currentIsFeatured,
+    currentIsOnline,
 
     setUrl,
+    setUrlExplore,
     handleChangePage,
     handleChangeLimit,
     handleChangeSearch,
     handleClearSearch,
+    handleChangeCategory,
+    handleChangeIsFeatured,
+    handleChangeIsOnline,
   };
 };
 
