@@ -12,6 +12,7 @@ const DELAY = 1000;
 
 const BANNER_LIMIT = 3;
 const EVENT_LIMIT = 4;
+const CATEGORY_LIMIT = 8;
 
 export {
   LIMIT_LISTS,
@@ -20,4 +21,5 @@ export {
   DELAY,
   BANNER_LIMIT,
   EVENT_LIMIT,
+  CATEGORY_LIMIT,
 };

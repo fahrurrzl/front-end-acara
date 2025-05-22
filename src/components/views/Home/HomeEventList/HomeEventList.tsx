@@ -1,6 +1,5 @@
 import CardEvent from "@/components/ui/CardEvent";
 import { IEvent } from "@/types/Event";
-import { Skeleton } from "@heroui/react";
 import Link from "next/link";
 
 interface PropTypes {
@@ -9,7 +8,7 @@ interface PropTypes {
   isLoading: boolean;
 }
 
-const HomeList = (props: PropTypes) => {
+const HomeEventList = (props: PropTypes) => {
   const { title, events, isLoading } = props;
   return (
     <div>
@@ -33,4 +32,4 @@ const HomeList = (props: PropTypes) => {
     </div>
   );
 };
-export default HomeList;
+export default HomeEventList;

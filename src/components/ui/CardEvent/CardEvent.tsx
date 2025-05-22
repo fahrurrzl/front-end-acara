@@ -5,6 +5,7 @@ import { Card, CardBody, CardFooter, Skeleton } from "@heroui/react";
 import Image from "next/image";
 import Link from "next/link";
 import { Fragment } from "react";
+import { IoCalendarSharp } from "react-icons/io5";
 
 interface PropTypes {
   event?: IEvent;
@@ -40,7 +41,8 @@ const CardEvent = (props: PropTypes) => {
             <p className="line-clamp-2 text-default-700">
               {event?.description}
             </p>
-            <p className="text-foreground-500">
+            <p className="flex items-center gap-2 text-sm text-foreground-500 lg:text-base">
+              <IoCalendarSharp size={16} className="hidden lg:block" />
               {convertTime(event?.startDate as string)}
             </p>
           </CardFooter>
