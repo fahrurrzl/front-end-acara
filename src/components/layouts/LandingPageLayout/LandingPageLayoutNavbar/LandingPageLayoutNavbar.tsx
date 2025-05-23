@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Button,
   ButtonVariantProps,
   Dropdown,
@@ -6,6 +7,8 @@ import {
   DropdownMenu,
   DropdownTrigger,
   Input,
+  Listbox,
+  ListboxItem,
   Navbar,
   NavbarBrand,
   NavbarContent,
@@ -14,6 +17,7 @@ import {
   NavbarMenuItem,
   NavbarMenuToggle,
   Skeleton,
+  Spinner,
   User,
 } from "@heroui/react";
 import Image from "next/image";
@@ -25,11 +29,20 @@ import { CiSearch } from "react-icons/ci";
 import { signOut, useSession } from "next-auth/react";
 import useLandingPageLayoutNavbar from "./useLandingPageLayoutNavbar";
 import { Fragment } from "react";
+import { IEvent } from "@/types/Event";
 
 const LandingPageLayoutNavbar = () => {
   const router = useRouter();
   const session = useSession();
-  const { dataProfile } = useLandingPageLayoutNavbar();
+  const {
+    dataProfile,
+    dataEventSearch,
+    isLoadingEventSearch,
+    isRefetchingEventSearch,
+    setSearch,
+    search,
+    handleEventSearch,
+  } = useLandingPageLayoutNavbar();
 
   return (
     <Navbar maxWidth="full" isBlurred={false} isBordered shouldHideOnScroll>
@@ -63,33 +76,82 @@ const LandingPageLayoutNavbar = () => {
       </div>
       <NavbarContent justify="end">
         <NavbarMenuToggle className="lg:hidden" />
-        <NavbarItem className="hidden lg:relative lg:flex">
+        <NavbarItem
+          className={cn(
+            "hidden transition-all duration-300 lg:relative lg:flex",
+            search !== "" ? "w-[400px]" : "w-[200px]",
+          )}
+        >
           <Input
             isClearable
             placeholder="Search Event"
-            className="w-[300px]"
+            className="w-full"
             startContent={<CiSearch />}
-            onClear={() => {}}
-            onChange={() => {}}
+            onClear={() => setSearch("")}
+            onChange={handleEventSearch}
           />
+          {search !== "" && (
+            <Listbox
+              items={dataEventSearch || []}
+              aria-label="List box event search"
+              variant="flat"
+              className="absolute right-0 top-12 rounded-md bg-white"
+            >
+              {!isLoadingEventSearch && !isRefetchingEventSearch ? (
+                (item: IEvent) => (
+                  <ListboxItem
+                    key={item._id}
+                    aria-label="List item event search"
+                    href={`/event/${item?.slug}`}
+                    className="flex items-start"
+                    startContent={
+                      <Image
+                        src={`${item?.banner}`}
+                        alt={`${item?.name}`}
+                        width={100}
+                        height={50}
+                        className="rounded-md object-cover"
+                      />
+                    }
+                  >
+                    <div>
+                      <h2 className="line-clamp-1 font-semibold">
+                        {(item?.name ?? "").length > 40
+                          ? `${item?.name?.slice(0, 40)}...`
+                          : item?.name}
+                      </h2>
+                      <p className="text-xs text-foreground-500">
+                        {(item?.description ?? "").length > 40
+                          ? `${item?.description?.slice(0, 40)}...`
+                          : item?.description}
+                      </p>
+                    </div>
+                  </ListboxItem>
+                )
+              ) : (
+                <ListboxItem key="Loading">
+                  <Spinner size="sm" color="danger" />
+                </ListboxItem>
+              )}
+            </Listbox>
+          )}
         </NavbarItem>
         <NavbarItem>
-          <div className="hidden lg:flex lg:items-center lg:gap-2">
+          <div className="hidden w-fit lg:flex lg:items-center lg:gap-2">
             {session.status === "authenticated" ? (
-              <Dropdown>
+              <Dropdown placement="bottom-start">
+                {!dataProfile && <Skeleton className="h-10 w-36 rounded-lg" />}
                 <DropdownTrigger>
-                  <Skeleton className="rounded-lg" isLoaded={!!dataProfile}>
-                    <User
-                      as="button"
-                      avatarProps={{
-                        isBordered: true,
-                        src: `${dataProfile?.profilePicture.startsWith("https://res.cloudinary.com") ? dataProfile?.profilePicture : ""}`,
-                      }}
-                      className="transition-transform"
-                      description={`@${dataProfile?.username}`}
-                      name={dataProfile?.fullName}
-                    />
-                  </Skeleton>
+                  <User
+                    as="button"
+                    avatarProps={{
+                      isBordered: true,
+                      src: `${dataProfile?.profilePicture.startsWith("https://res.cloudinary.com") ? dataProfile?.profilePicture : ""}`,
+                    }}
+                    className="transition-transform"
+                    description={`@${dataProfile?.username}`}
+                    name={dataProfile?.fullName}
+                  />
                 </DropdownTrigger>
                 <DropdownMenu>
                   <DropdownItem
