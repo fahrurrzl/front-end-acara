@@ -20,9 +20,10 @@ const TicketTab = ({ tickets }: PropTypes) => {
     <div>
       <h2 className="mb-3 text-2xl font-semibold">Ticket</h2>
       {tickets?.map((ticket) => (
-        <Card className="mb-4 p-2 lg:p-4">
+        <Card key={ticket._id} className="mb-4 p-2 lg:p-4">
           <Accordion>
             <AccordionItem
+              key={ticket._id}
               aria-label={ticket.name}
               className="border-b-2 border-dashed"
               title={
