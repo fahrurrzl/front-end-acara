@@ -9,11 +9,14 @@ import {
   Tooltip,
 } from "@heroui/react";
 import { useSession } from "next-auth/react";
+import { ICart } from "@/types/Ticket";
 
 interface PropTypes {
   tickets: ITicket[];
+  cart: ICart;
+  handleAddToCart: (ticket: string) => void;
 }
-const TicketTab = ({ tickets }: PropTypes) => {
+const TicketTab = ({ tickets, cart, handleAddToCart }: PropTypes) => {
   const session = useSession();
 
   return (
@@ -70,8 +73,10 @@ const TicketTab = ({ tickets }: PropTypes) => {
                 className="disabled:cursor-no-drop disabled:opacity-30 disabled:hover:opacity-30"
                 disabled={
                   Number(ticket?.quantity) <= 0 ||
-                  session.status !== "authenticated"
+                  session.status !== "authenticated" ||
+                  cart?.ticket === ticket._id
                 }
+                onPress={() => handleAddToCart(ticket._id as string)}
               >
                 Add To Cart
               </Button>

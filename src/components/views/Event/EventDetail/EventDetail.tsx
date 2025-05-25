@@ -1,8 +1,6 @@
 import {
   BreadcrumbItem,
   Breadcrumbs,
-  Card,
-  CardHeader,
   Skeleton,
   Tab,
   Tabs,
@@ -13,10 +11,17 @@ import { convertTime } from "@/utils/date";
 import Image from "next/image";
 import DescriptionTab from "./DescriptionTab";
 import TicketTab from "./TicketTab";
+import DetailEventCart from "@/components/views/Event/EventDetail/DetailEventCart";
 
 const EventDetail = () => {
-  const { dataEvent, isLoadingEvent, dataTicket, isLoadingTicket } =
-    useEventDetail();
+  const {
+    dataEvent,
+    dataTicket,
+    cart,
+    handleAddToCart,
+    handleChangeQuantity,
+    dataTicketInCart,
+  } = useEventDetail();
 
   return (
     <div className="px-8 md:px-0">
@@ -81,14 +86,20 @@ const EventDetail = () => {
               <DescriptionTab description={dataEvent?.description} />
             </Tab>
             <Tab key="ticket" title="Ticket">
-              <TicketTab tickets={dataTicket} />
+              <TicketTab
+                tickets={dataTicket}
+                cart={cart}
+                handleAddToCart={handleAddToCart}
+              />
             </Tab>
           </Tabs>
         </section>
         <section className="lg:col-span-4">
-          <Card className="w-full">
-            <CardHeader>Cart</CardHeader>
-          </Card>
+          <DetailEventCart
+            cart={cart}
+            dataTicketInCart={dataTicketInCart}
+            onChangeQuantity={handleChangeQuantity}
+          />
         </section>
       </div>
     </div>
