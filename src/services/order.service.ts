@@ -1,0 +1,11 @@
+import instance from "@/libs/axios/instance";
+import { ICart } from "@/types/Ticket";
+import endpoint from "./endpoint.constant";
+
+const orderService = {
+  createOrder: (payload: ICart) => instance.post(endpoint.ORDER, payload),
+  updateOrderStatus: (order_id: string, status: string) =>
+    instance.put(`${endpoint.ORDER}/${order_id}/${status}`),
+};
+
+export default orderService;

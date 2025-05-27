@@ -12,6 +12,9 @@ import Image from "next/image";
 import DescriptionTab from "./DescriptionTab";
 import TicketTab from "./TicketTab";
 import DetailEventCart from "@/components/views/Event/EventDetail/DetailEventCart";
+import Script from "next/script";
+import environment from "@/config/environments";
+import { useEffect } from "react";
 
 const EventDetail = () => {
   const {
@@ -21,10 +24,28 @@ const EventDetail = () => {
     handleAddToCart,
     handleChangeQuantity,
     dataTicketInCart,
+    mutateCreateOrder,
+    isPendingCreateOrder,
+    isSnapLoaded,
+    setIsSnapLoaded,
   } = useEventDetail();
 
   return (
     <div className="px-8 md:px-0">
+      <Script
+        id="midtrans-script"
+        src={environment.NEXT_PUBLIC_MIDTRANS_SANP_URL}
+        data-client-key={environment.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY}
+        strategy="afterInteractive"
+        onLoad={() => {
+          if (typeof window !== "undefined" && (window as any).snap) {
+            setIsSnapLoaded(true);
+          } else {
+            console.error("❌ Snap tidak tersedia setelah script onLoad");
+          }
+        }}
+      />
+
       <Skeleton
         isLoaded={!!dataEvent?.name}
         className="h-5 w-full rounded-lg lg:w-1/2"
@@ -99,6 +120,8 @@ const EventDetail = () => {
             cart={cart}
             dataTicketInCart={dataTicketInCart}
             onChangeQuantity={handleChangeQuantity}
+            onCreateOrder={mutateCreateOrder}
+            isLoading={isPendingCreateOrder}
           />
         </section>
       </div>

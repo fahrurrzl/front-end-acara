@@ -1,13 +1,16 @@
 import eventServices from "@/services/event.service";
 import ticketService from "@/services/ticket.service";
 import { ICart, ITicket } from "@/types/Ticket";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
-import { useMemo, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import { defaultCart } from "./eventDetail.constant";
+import orderService from "@/services/order.service";
+import { ToasterContext } from "@/context/ToasterContext";
 
 const useEventDetail = () => {
   const router = useRouter();
+  const { setToaster } = useContext(ToasterContext);
 
   const getEventBySlug = async () => {
     const { data } = await eventServices.getEventBySlug(`${router.query.slug}`);
@@ -43,7 +46,7 @@ const useEventDetail = () => {
   // handle untuk menambahkan ticket ke cart
   const handleAddToCart = (ticket: string) => {
     setCart({
-      event: dataEvent?._id as string,
+      events: dataEvent?._id,
       ticket,
       quantity: 1,
     });
@@ -69,6 +72,38 @@ const useEventDetail = () => {
     }
   };
 
+  const createOrder = async () => {
+    const { data } = await orderService.createOrder(cart);
+    return data.data;
+  };
+
+  const [isSnapLoaded, setIsSnapLoaded] = useState(false);
+
+  const { mutate: mutateCreateOrder, isPending: isPendingCreateOrder } =
+    useMutation({
+      mutationFn: createOrder,
+      onError(error) {
+        console.log(error);
+        setToaster({
+          type: "error",
+          message: error.message,
+        });
+      },
+      onSuccess(result) {
+        const transactionToken = result.payment.token;
+
+        if (
+          isSnapLoaded &&
+          typeof window !== "undefined" &&
+          (window as any).snap
+        ) {
+          (window as any).snap.pay(transactionToken);
+        } else {
+          console.error("❌ Snap belum siap. Tidak bisa panggil snap.pay()");
+        }
+      },
+    });
+
   return {
     dataEvent,
     dataTicket,
@@ -76,6 +111,10 @@ const useEventDetail = () => {
     dataTicketInCart,
     handleAddToCart,
     handleChangeQuantity,
+    mutateCreateOrder,
+    isPendingCreateOrder,
+    isSnapLoaded,
+    setIsSnapLoaded,
   };
 };
 

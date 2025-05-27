@@ -54,7 +54,7 @@ const TicketTab = ({ tickets, cart, handleAddToCart }: PropTypes) => {
             <Tooltip
               content={
                 session.status !== "authenticated"
-                  ? "Please Login"
+                  ? "Login for book ticket"
                   : Number(ticket?.quantity) <= 0
                     ? "Ticket Sold Out"
                     : "Add To Cart"

@@ -8,7 +8,7 @@ interface ITicket {
 }
 
 interface ICart {
-  event: string;
+  events: string;
   ticket: string;
   quantity: number;
 }
