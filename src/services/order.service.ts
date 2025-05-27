@@ -6,6 +6,8 @@ const orderService = {
   createOrder: (payload: ICart) => instance.post(endpoint.ORDER, payload),
   updateOrderStatus: (order_id: string, status: string) =>
     instance.put(`${endpoint.ORDER}/${order_id}/${status}`),
+  getOrderHistory: (params: string) =>
+    instance.get(`${endpoint.ORDER}-history?${params}`),
 };
 
 export default orderService;
