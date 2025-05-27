@@ -10,8 +10,7 @@ import { useRouter } from "next/router";
 
 const Transaction = () => {
   const { dataTransaction, isLoadingTransaction } = useTransaction();
-
-  const { isReady } = useRouter();
+  const { isReady, push } = useRouter();
 
   const { setUrl } = useChangeUrl();
 
@@ -47,8 +46,9 @@ const Transaction = () => {
           return (
             <DropdownAction
               hideDelete
-              onPressDetail={() => {}}
-              onPressDelete={() => {}}
+              onPressDetail={() =>
+                push(`/member/transaction/${transaction.orderId}`)
+              }
             />
           );
         default:

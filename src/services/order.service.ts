@@ -8,6 +8,8 @@ const orderService = {
     instance.put(`${endpoint.ORDER}/${order_id}/${status}`),
   getOrderHistory: (params: string) =>
     instance.get(`${endpoint.ORDER}-history?${params}`),
+  getOrderByOrderId: (orderId: string) =>
+    instance.get(`${endpoint.ORDER}/${orderId}`),
 };
 
 export default orderService;

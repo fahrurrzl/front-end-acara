@@ -163,6 +163,11 @@ const LandingPageLayoutNavbar = () => {
                   >
                     Admin
                   </DropdownItem>
+                  {dataProfile?.role === "member" ? (
+                    <DropdownItem key="my-dashboard" href="/member/dashboard">
+                      My Dashboard
+                    </DropdownItem>
+                  ) : null}
                   <DropdownItem key="profile" href="/member/profile">
                     Profile
                   </DropdownItem>

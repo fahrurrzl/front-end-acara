@@ -46,7 +46,7 @@ const Payment = () => {
         <Button
           variant="bordered"
           color="danger"
-          onPress={() => router.push(`/member/transaction`)}
+          onPress={() => router.push(`/member/transaction/${order_id}`)}
         >
           Check your transaction here
         </Button>
