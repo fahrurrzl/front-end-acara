@@ -1,7 +1,7 @@
 import { ICart } from "@/types/Ticket";
 
 const defaultCart: ICart = {
-  event: "",
+  events: "",
   ticket: "",
   quantity: 0,
 };
