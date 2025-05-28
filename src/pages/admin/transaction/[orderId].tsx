@@ -1,12 +1,12 @@
 import DashboardLayout from "@/components/layouts/DashboardLayout";
-import DetailTransaction from "@/components/views/Member/DetailTransaction";
+import DetailTransaction from "@/components/views/Admin/Transaction/DetailTransaction";
 
 const TransactionDetailPage = () => {
   return (
     <DashboardLayout
       title="Detail Transaction"
       description="Detail of transaction"
-      type="member"
+      type="admin"
     >
       <DetailTransaction />
     </DashboardLayout>

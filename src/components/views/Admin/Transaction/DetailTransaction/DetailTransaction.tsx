@@ -11,27 +11,13 @@ import { convertIDR } from "@/utils/currency";
 import { QRCodeSVG } from "qrcode.react";
 import { convertTime } from "@/utils/date";
 import Link from "next/link";
-import Script from "next/script";
-import environment from "@/config/environments";
 
 const DetailTransaction = () => {
-  const {
-    dataDetailTransaction,
-    isLoadingDetailTransaction,
-    dataEvent,
-    isLoadingDataEvent,
-    dataTicket,
-    isLoadingDataTicket,
-  } = useDetailTransaction();
-  console.log(dataEvent);
+  const { dataDetailTransaction, dataEvent, dataTicket } =
+    useDetailTransaction();
 
   return (
     <div>
-      <Script
-        src={environment.NEXT_PUBLIC_MIDTRANS_SANP_URL}
-        data-client-key={environment.NEXT_PUBLIC_MIDTRANS_CLIENT_KEY}
-        strategy="lazyOnload"
-      />
       <Card className="p-4">
         <h3 className="font-bold">Order: </h3>
         <CardHeader className="grid grid-cols-2 gap-4 lg:grid-cols-4 lg:gap-8">
@@ -140,17 +126,6 @@ const DetailTransaction = () => {
               )}
             </div>
           </div>
-        )}
-        {dataDetailTransaction?.status === "pending" && (
-          <Button
-            className="w-fit"
-            color="danger"
-            onPress={() =>
-              (window as any).snap.pay(dataDetailTransaction?.payment?.token)
-            }
-          >
-            Pay Now
-          </Button>
         )}
       </Card>
     </div>
