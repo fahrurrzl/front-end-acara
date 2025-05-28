@@ -5,7 +5,7 @@ const TransactionMemberPage = () => {
   return (
     <DashboardLayout
       title="Transaction"
-      description="Member Transaction"
+      description="List of all your transactions"
       type="member"
     >
       <Transaction />

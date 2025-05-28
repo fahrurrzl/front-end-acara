@@ -15,7 +15,7 @@ const useTransaction = () => {
   };
 
   const { data: dataTransaction, isLoading: isLoadingTransaction } = useQuery({
-    queryKey: ["transactions"],
+    queryKey: ["transactions", currentPage, currentLimit],
     queryFn: getTransactionMember,
     enabled: query.isReady,
   });
