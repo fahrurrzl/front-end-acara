@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import DataTable from "@/components/ui/DataTable";
 import { COLUMN_LIST_TRANSACTION } from "./Transaction.constant";
 import useChangeUrl from "@/hooks/useChangeUrl";
-import DeleteTransactionModal from "./DeleteTransactionModal/DeleteTransactionModal";
+import DeleteTransactionModal from "./DeleteTransactionModal";
 
 const AdminTransaction = () => {
   const [selectedId, setSelectedId] = useState("");
@@ -16,7 +16,6 @@ const AdminTransaction = () => {
   const { setUrl } = useChangeUrl();
   const { dataOrders, isLoadingDataOrders, refetchTransaction } =
     useAdminTransaction();
-  console.log("Data Orders 👉: ", dataOrders);
 
   const deleteTransactionModal = useDisclosure();
 

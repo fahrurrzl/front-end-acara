@@ -1,3 +1,3 @@
-import DeleteCategoryModal from "./DeleteCategoryModal";
+import DeleteTransactionModal from "./DeleteTransactionModal";
 
-export default DeleteCategoryModal;
+export default DeleteTransactionModal;
