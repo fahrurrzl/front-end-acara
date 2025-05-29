@@ -7,7 +7,6 @@ const useTicketTab = () => {
 
   const getTicketByEvent = async () => {
     const res = await ticketService.getTicketByEvent(`${query.id}`);
-    console.log({ res });
     return res.data.data;
   };
 

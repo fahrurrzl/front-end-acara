@@ -35,6 +35,16 @@ interface JWTExtended extends JWT {
   user?: UserExtended;
 }
 
+interface IProfile {
+  _id?: string;
+  fullName?: string;
+  username?: string;
+  email?: string;
+  profilePicture?: string | FileList;
+  role?: string;
+  isActive?: string;
+}
+
 export type {
   IRegister,
   IActivation,
@@ -43,4 +53,5 @@ export type {
   SessionExtended,
   JWTExtended,
   ILogin,
+  IProfile,
 };

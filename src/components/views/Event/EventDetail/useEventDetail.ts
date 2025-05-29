@@ -83,7 +83,6 @@ const useEventDetail = () => {
     useMutation({
       mutationFn: createOrder,
       onError(error) {
-        console.log(error);
         setToaster({
           type: "error",
           message: error.message,
