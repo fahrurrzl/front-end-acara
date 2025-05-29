@@ -56,7 +56,7 @@ const InfoTab = (props: PropTypes) => {
           className="flex flex-col gap-4"
           onSubmit={handleSubmitUpdateInfo(onUpdate)}
         >
-          <p className="text-sm font-medium text-default-700">Info Icon</p>
+          <p className="text-sm font-medium text-default-700">Info Category</p>
           <Skeleton isLoaded={!!dataCategory?.name} className="rounded-lg">
             <Controller
               name="name"

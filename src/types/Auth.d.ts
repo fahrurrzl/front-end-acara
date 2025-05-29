@@ -45,6 +45,11 @@ interface IProfile {
   isActive?: string;
 }
 
+interface IPassword {
+  oldPassword: string;
+  password: string;
+}
+
 export type {
   IRegister,
   IActivation,
@@ -54,4 +59,5 @@ export type {
   JWTExtended,
   ILogin,
   IProfile,
+  IPassword,
 };

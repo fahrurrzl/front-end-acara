@@ -2,14 +2,19 @@ import { Tab, Tabs } from "@heroui/react";
 import PictureTab from "./PictureTab";
 import { FaRegImage, FaRegUser } from "react-icons/fa6";
 import useProfile from "./useProfile";
+import InfoTab from "./InfoTab";
+import { IoKeyOutline } from "react-icons/io5";
+import SecurityTab from "./SecurityTab";
 
 const Profile = () => {
   const {
     dataProfile,
-    isLoadingDataProfile,
     handleUpdateProfile,
-    isPendingMutateUpdateProfilePicture,
+    isPendingMutateUpdateProfile,
     isSuccessUpdateProfile,
+    handleUpdatePassword,
+    isPendingMutateUpdatePassword,
+    isSuccessUpdatePassword,
   } = useProfile();
 
   return (
@@ -27,7 +32,7 @@ const Profile = () => {
           <PictureTab
             currentPicture={dataProfile?.data.profilePicture}
             onUpdate={handleUpdateProfile}
-            isPendingUpdate={isPendingMutateUpdateProfilePicture}
+            isPendingUpdate={isPendingMutateUpdateProfile}
             isSuccessUpdate={isSuccessUpdateProfile}
           />
         </Tab>
@@ -40,7 +45,22 @@ const Profile = () => {
             </div>
           }
         >
-          Info
+          <InfoTab />
+        </Tab>
+        <Tab
+          key="security"
+          title={
+            <div className="flex items-center space-x-2">
+              <IoKeyOutline size={18} />
+              <span>Security</span>
+            </div>
+          }
+        >
+          <SecurityTab
+            onUpdate={handleUpdatePassword}
+            isPendingUpdatePassword={isPendingMutateUpdatePassword}
+            isSuccessUpdatePassword={isSuccessUpdatePassword}
+          />
         </Tab>
       </Tabs>
     </div>

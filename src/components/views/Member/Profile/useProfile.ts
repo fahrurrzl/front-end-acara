@@ -1,6 +1,6 @@
 import { ToasterContext } from "@/context/ToasterContext";
 import { authServices } from "@/services/auth.service";
-import { IProfile } from "@/types/Auth";
+import { IPassword, IProfile } from "@/types/Auth";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { useContext } from "react";
 
@@ -21,22 +21,22 @@ const useProfile = () => {
     queryFn: getProfile,
   });
 
-  const updateProfilePicture = async (payload: IProfile) => {
+  const updateProfile = async (payload: IProfile) => {
     const { data } = await authServices.updateProfile(payload);
     return data.data;
   };
 
   const {
-    mutate: mutateUpdateProfilePicture,
-    isPending: isPendingMutateUpdateProfilePicture,
+    mutate: mutateUpdateProfile,
+    isPending: isPendingMutateUpdateProfile,
     isSuccess: isSuccessUpdateProfile,
   } = useMutation({
-    mutationFn: updateProfilePicture,
+    mutationFn: updateProfile,
     onSuccess: () => {
       refetchDataProfile();
       setToaster({
         type: "success",
-        message: "Update profile picture successfully",
+        message: "Update profile successfully",
       });
     },
     onError: (error) => {
@@ -47,16 +47,46 @@ const useProfile = () => {
     },
   });
 
-  const handleUpdateProfile = (data: IProfile) =>
-    mutateUpdateProfilePicture(data);
+  const handleUpdateProfile = (data: IProfile) => mutateUpdateProfile(data);
+
+  const updatePassword = async (payload: IPassword) => {
+    const { data } = await authServices.updatePassword(payload);
+    return data.data;
+  };
+
+  const {
+    mutate: mutateUpdatePassword,
+    isPending: isPendingMutateUpdatePassword,
+    isSuccess: isSuccessUpdatePassword,
+  } = useMutation({
+    mutationFn: updatePassword,
+    onSuccess: () => {
+      setToaster({
+        type: "success",
+        message: "Update password successfully",
+      });
+    },
+    onError: (error: any) => {
+      setToaster({
+        type: "error",
+        message: error.response?.data.meta.message,
+      });
+    },
+  });
+
+  const handleUpdatePassword = (data: IPassword) => mutateUpdatePassword(data);
 
   return {
     dataProfile,
     isLoadingDataProfile,
 
     handleUpdateProfile,
-    isPendingMutateUpdateProfilePicture,
+    isPendingMutateUpdateProfile,
     isSuccessUpdateProfile,
+
+    handleUpdatePassword,
+    isPendingMutateUpdatePassword,
+    isSuccessUpdatePassword,
   };
 };
 
