@@ -2,6 +2,7 @@ import {
   Avatar,
   Button,
   ButtonVariantProps,
+  Divider,
   Dropdown,
   DropdownItem,
   DropdownMenu,
@@ -161,16 +162,18 @@ const LandingPageLayoutNavbar = () => {
                       hidden: dataProfile?.role !== "admin",
                     })}
                   >
-                    Admin
+                    Admin Dashboard
                   </DropdownItem>
                   {dataProfile?.role === "member" ? (
-                    <DropdownItem key="my-dashboard" href="/member/dashboard">
-                      My Dashboard
-                    </DropdownItem>
+                    <>
+                      <DropdownItem key="my-dashboard" href="/member/dashboard">
+                        My Dashboard
+                      </DropdownItem>
+                      <DropdownItem key="profile" href="/member/profile">
+                        Profile
+                      </DropdownItem>
+                    </>
                   ) : null}
-                  <DropdownItem key="profile" href="/member/profile">
-                    Profile
-                  </DropdownItem>
                   <DropdownItem key="signout" onPress={() => signOut()}>
                     Log out
                   </DropdownItem>
@@ -207,6 +210,7 @@ const LandingPageLayoutNavbar = () => {
               <Link href={item.href}>{item.name}</Link>
             </NavbarMenuItem>
           ))}
+          <Divider />
           {session.status === "authenticated" ? (
             dataProfile?.role === "admin" ? (
               <Fragment>
@@ -219,7 +223,7 @@ const LandingPageLayoutNavbar = () => {
                     },
                   )}
                 >
-                  <Link href="/admin/dashboard">Admin</Link>
+                  <Link href="/admin/dashboard">Admin Dashboard</Link>
                 </NavbarMenuItem>
                 <NavbarMenuItem
                   as={Link}
@@ -246,17 +250,40 @@ const LandingPageLayoutNavbar = () => {
                 </NavbarMenuItem>
               </Fragment>
             ) : (
-              <NavbarMenuItem
-                className={cn(
-                  "text-sm font-medium text-default-700 transition-all hover:text-danger",
-                  {
-                    "font-bold text-danger":
-                      router.pathname === "/member/dashboard",
-                  },
-                )}
-              >
-                <Link href="/member/dashboard">My Dashboard</Link>
-              </NavbarMenuItem>
+              <>
+                <NavbarMenuItem
+                  className={cn(
+                    "text-sm font-medium text-default-700 transition-all hover:text-danger",
+                    {
+                      "font-bold text-danger":
+                        router.pathname === "/member/dashboard",
+                    },
+                  )}
+                >
+                  <Link href="/member/dashboard">My Dashboard</Link>
+                </NavbarMenuItem>
+                <NavbarMenuItem
+                  className={cn(
+                    "text-sm font-medium text-default-700 transition-all hover:text-danger",
+                    {
+                      "font-bold text-danger":
+                        router.pathname === "/member/profile",
+                    },
+                  )}
+                >
+                  <Link href="/member/profile">Profile</Link>
+                </NavbarMenuItem>
+                <NavbarMenuItem>
+                  <Button
+                    variant="bordered"
+                    color="danger"
+                    className="w-full"
+                    onPress={() => signOut()}
+                  >
+                    Log out
+                  </Button>
+                </NavbarMenuItem>
+              </>
             )
           ) : (
             <Fragment>
