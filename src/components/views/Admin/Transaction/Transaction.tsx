@@ -14,7 +14,7 @@ const AdminTransaction = () => {
 
   const { push, isReady } = useRouter();
   const { setUrl } = useChangeUrl();
-  const { dataOrders, isLoadingDataOrders, refetchTransaction } =
+  const { dataOrders, isLoadingDataOrders, refetchTransaction, isClientReady } =
     useAdminTransaction();
 
   const deleteTransactionModal = useDisclosure();
@@ -65,6 +65,8 @@ const AdminTransaction = () => {
     },
     [],
   );
+
+  if (!isClientReady) return null;
 
   return (
     <section>

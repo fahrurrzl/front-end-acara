@@ -9,7 +9,8 @@ import useChangeUrl from "@/hooks/useChangeUrl";
 import { useRouter } from "next/router";
 
 const Transaction = () => {
-  const { dataTransaction, isLoadingTransaction } = useTransaction();
+  const { dataTransaction, isLoadingTransaction, isClientReady } =
+    useTransaction();
   const { isReady, push } = useRouter();
 
   const { setUrl } = useChangeUrl();
@@ -57,6 +58,8 @@ const Transaction = () => {
     },
     [],
   );
+
+  if (!isClientReady) return null;
 
   return (
     <section>

@@ -1,5 +1,6 @@
 import InputFile from "@/components/ui/InputFile";
 import {
+  Avatar,
   Button,
   Card,
   CardBody,
@@ -57,21 +58,18 @@ const PictureTab = ({
             <p className="mb-3 text-sm font-medium text-default-700">
               Current Picture
             </p>
-            <Skeleton
-              isLoaded={!!currentPicture}
-              className="mb-3 aspect-video rounded-lg"
-            >
-              <Image
+            <div className="mb-3 flex items-center justify-center">
+              <Avatar
+                aria-label="Profile Picture"
                 src={
                   currentPicture?.startsWith("https://res.cloudinary.com")
                     ? currentPicture
                     : "/images/user.png"
                 }
-                alt="Profile Picture"
-                fill
-                className="!relative"
+                className="h-2/3 w-2/3 object-cover"
               />
-            </Skeleton>
+            </div>
+
             <Controller
               name="profilePicture"
               control={controlUpdatePicture}

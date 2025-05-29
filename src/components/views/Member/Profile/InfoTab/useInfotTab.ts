@@ -5,13 +5,7 @@ import { useForm } from "react-hook-form";
 import * as yup from "yup";
 
 const profileInfoSchema = yup.object({
-  username: yup.string().required("Please input username"),
-  email: yup
-    .string()
-    .email("Please input valid email")
-    .required("Please input email"),
-  fullName: yup.string().required("Please input full name"),
-  role: yup.string().required("Please input role"),
+  fullName: yup.string().required("Please input your full name"),
 });
 
 const useInfoTab = () => {
@@ -20,7 +14,6 @@ const useInfoTab = () => {
     handleSubmit: handleSubmitInfo,
     formState: { errors: errorsInfo },
     reset: resetInfo,
-    getValues: getValuesInfo,
   } = useForm({
     resolver: yupResolver(profileInfoSchema),
   });

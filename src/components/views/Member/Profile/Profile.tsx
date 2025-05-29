@@ -45,7 +45,10 @@ const Profile = () => {
             </div>
           }
         >
-          <InfoTab />
+          <InfoTab
+            onUpdate={handleUpdateProfile}
+            isPendingUpdate={isPendingMutateUpdateProfile}
+          />
         </Tab>
         <Tab
           key="security"

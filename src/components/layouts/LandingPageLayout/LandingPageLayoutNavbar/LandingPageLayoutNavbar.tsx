@@ -157,7 +157,7 @@ const LandingPageLayoutNavbar = () => {
                 <DropdownMenu>
                   <DropdownItem
                     key="admin"
-                    href="/admin/dashboard"
+                    href="/admin/event"
                     className={cn({
                       hidden: dataProfile?.role !== "admin",
                     })}
@@ -166,7 +166,10 @@ const LandingPageLayoutNavbar = () => {
                   </DropdownItem>
                   {dataProfile?.role === "member" ? (
                     <>
-                      <DropdownItem key="my-dashboard" href="/member/dashboard">
+                      <DropdownItem
+                        key="my-dashboard"
+                        href="/member/transaction"
+                      >
                         My Dashboard
                       </DropdownItem>
                       <DropdownItem key="profile" href="/member/profile">
@@ -223,7 +226,7 @@ const LandingPageLayoutNavbar = () => {
                     },
                   )}
                 >
-                  <Link href="/admin/dashboard">Admin Dashboard</Link>
+                  <Link href="/admin/event">Admin Dashboard</Link>
                 </NavbarMenuItem>
                 <NavbarMenuItem
                   as={Link}
@@ -256,11 +259,11 @@ const LandingPageLayoutNavbar = () => {
                     "text-sm font-medium text-default-700 transition-all hover:text-danger",
                     {
                       "font-bold text-danger":
-                        router.pathname === "/member/dashboard",
+                        router.pathname === "/member/transaction",
                     },
                   )}
                 >
-                  <Link href="/member/dashboard">My Dashboard</Link>
+                  <Link href="/member/transaction">My Dashboard</Link>
                 </NavbarMenuItem>
                 <NavbarMenuItem
                   className={cn(
