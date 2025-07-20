@@ -1,10 +1,13 @@
+import ticketService from "@/services/ticket.service";
 import { IEvent } from "@/types/Event";
+import { ITicket } from "@/types/Ticket";
 import { cn } from "@/utils/cn";
+import { convertIDR } from "@/utils/currency";
 import { convertTime } from "@/utils/date";
 import { Card, CardBody, CardFooter, Skeleton } from "@heroui/react";
 import Image from "next/image";
 import Link from "next/link";
-import { Fragment } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { IoCalendarSharp } from "react-icons/io5";
 
 interface PropTypes {
@@ -13,40 +16,70 @@ interface PropTypes {
   isLoading?: boolean;
 }
 const CardEvent = (props: PropTypes) => {
+  const [tickets, setTickets] = useState<ITicket[]>([]);
+  const [isTicketLoading, setIsTicketLoading] = useState(false);
+
   const { event, className, isLoading } = props;
+
+  useEffect(() => {
+    const fetchTickets = async () => {
+      if (!event?._id) return;
+      setIsTicketLoading(true);
+      try {
+        const { data } = await ticketService.getTicketByEvent(event?._id);
+        setTickets(data?.data);
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsTicketLoading(false);
+      }
+    };
+
+    fetchTickets();
+  }, [event?._id]);
 
   return (
     <Fragment>
       {!isLoading ? (
-        <Card
-          shadow="sm"
-          className={cn(className, "group cursor-pointer rounded-lg")}
-          isPressable
-          as={Link}
-          href={`/event/${event?.slug}`}
-        >
-          <CardBody>
-            <Image
-              src={event?.banner as string}
-              alt="cover"
-              width={1920}
-              height={1080}
-              className="aspect-video w-full rounded-lg object-cover transition-all duration-300 group-hover:scale-105"
-            />
-          </CardBody>
-          <CardFooter className="flex flex-col items-start gap-2">
-            <h2 className="line-clamp-1 text-xl font-bold text-danger">
-              {event?.name}
-            </h2>
-            <p className="line-clamp-2 text-default-700">
-              {event?.description}
-            </p>
-            <p className="flex items-center gap-2 text-sm text-foreground-500 lg:text-base">
-              <IoCalendarSharp size={16} className="hidden lg:block" />
-              {convertTime(event?.startDate as string)}
-            </p>
-          </CardFooter>
-        </Card>
+        event?.startDate && new Date(event?.startDate) > new Date() ? (
+          <Card
+            shadow="sm"
+            className={cn(className, "group cursor-pointer rounded-sm")}
+            isPressable
+            as={Link}
+            href={`/event/${event?.slug}`}
+          >
+            <CardBody>
+              <Image
+                src={event?.banner as string}
+                alt="cover"
+                width={1920}
+                height={1080}
+                className="aspect-video w-full rounded-sm object-cover transition-all duration-300 group-hover:scale-105"
+              />
+            </CardBody>
+            <CardFooter className="flex flex-col items-start gap-2">
+              <h2 className="line-clamp-1 text-xl font-bold text-danger">
+                {event?.name}
+              </h2>
+              <p className="flex items-center gap-2 text-sm">
+                <IoCalendarSharp size={16} className="hidden lg:block" />
+                {convertTime(event?.startDate as string)}
+              </p>
+              <p className="text-foreground-500">{event?.location?.address}</p>
+              <div className="flex w-full items-center justify-between gap-2 border-t pt-3 text-sm">
+                <p className="text-foreground-500">Start From</p>
+                {isTicketLoading ? (
+                  <Skeleton className="h-4 w-1/3 rounded-lg" />
+                ) : (
+                  <p className="font-bold">
+                    {convertIDR(tickets[0]?.price as number)}
+                  </p>
+                )}
+              </div>
+            </CardFooter>
+          </Card>
+        ) : null
       ) : (
         <Card shadow="sm" className="rounded-lg">
           <CardBody>

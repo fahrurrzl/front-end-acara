@@ -11,6 +11,12 @@ interface PropTypes {
 
 const HomeEventList = (props: PropTypes) => {
   const { title, events, isLoading, urlMore } = props;
+  const upcomingEvents = events?.filter(
+    (event) => event.startDate && new Date(event.startDate) > new Date(),
+  );
+
+  console.log(upcomingEvents);
+
   return (
     <div>
       <div className="mb-3 flex items-center justify-between px-6 lg:px-0">
@@ -25,7 +31,9 @@ const HomeEventList = (props: PropTypes) => {
 
       <div className="grid grid-cols-1 gap-2 px-4 py-2 md:grid-cols-2 lg:grid-cols-4 lg:gap-4 lg:px-0">
         {!isLoading
-          ? events.map((event) => <CardEvent key={event?._id} event={event} />)
+          ? upcomingEvents.map((event) => (
+              <CardEvent key={event?._id} event={event} />
+            ))
           : Array.from({ length: 4 }).map((_, index) => (
               <CardEvent key={index} isLoading={isLoading} />
             ))}
