@@ -115,6 +115,7 @@ const DetailTransaction = () => {
                   as={Link}
                   href={pdfUrl}
                   target="_blank"
+                  className="hidden items-center gap-2 lg:flex"
                 >
                   <FiEye />
                   View PDF
