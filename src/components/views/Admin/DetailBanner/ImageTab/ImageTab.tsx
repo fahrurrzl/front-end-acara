@@ -60,8 +60,9 @@ const ImageTab = (props: propTypes) => {
               <Image
                 src={currentImage}
                 alt="Image"
-                fill
-                className="!relative rounded-lg"
+                width={500}
+                height={500}
+                className="h-32 rounded-lg object-cover"
               />
             </Skeleton>
             <Controller

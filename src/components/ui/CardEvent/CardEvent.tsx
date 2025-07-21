@@ -55,7 +55,7 @@ const CardEvent = (props: PropTypes) => {
                 alt="cover"
                 width={1920}
                 height={1080}
-                className="aspect-video w-full rounded-sm object-cover transition-all duration-300 group-hover:scale-105"
+                className="aspect-video w-full rounded-sm object-cover transition-all duration-300 group-hover:scale-105 lg:aspect-square"
               />
             </CardBody>
             <CardFooter className="flex flex-col items-start gap-2">

@@ -19,6 +19,7 @@ const HomeSlider = (props: PropTypes) => {
     <div className="mx-6 mb-6 h-[25vw] lg:mx-0 lg:mb-16">
       {!isLoading ? (
         <Swiper
+          slidesPerView={2}
           modules={[Pagination, Autoplay]}
           spaceBetween={30}
           pagination={{
