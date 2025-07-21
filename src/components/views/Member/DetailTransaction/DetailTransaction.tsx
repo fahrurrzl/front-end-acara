@@ -13,10 +13,14 @@ import { convertTime } from "@/utils/date";
 import Link from "next/link";
 import Script from "next/script";
 import environment from "@/config/environments";
+import { FiDownload } from "react-icons/fi";
+import { useRouter } from "next/router";
 
 const DetailTransaction = () => {
   const { dataDetailTransaction, dataEvent, dataTicket } =
     useDetailTransaction();
+  const router = useRouter();
+  const pdfUrl = `${router.asPath}/pdf`;
 
   return (
     <div>
@@ -81,7 +85,13 @@ const DetailTransaction = () => {
         </CardHeader>
         {dataDetailTransaction?.status === "completed" && (
           <div className="flex flex-col gap-2">
-            <h3 className="mb-3 font-bold">Ticket: </h3>
+            <div className="flex items-center justify-between">
+              <h3 className="mb-3 font-bold">Ticket: </h3>
+              <Button color="danger" onPress={() => window.open(pdfUrl)}>
+                <FiDownload />
+                Download
+              </Button>
+            </div>
             <div>
               {dataDetailTransaction?.vouchers?.map(
                 (voucher: { voucherId: string }) => (

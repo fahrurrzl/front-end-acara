@@ -15,8 +15,6 @@ const HomeEventList = (props: PropTypes) => {
     (event) => event.startDate && new Date(event.startDate) > new Date(),
   );
 
-  console.log(upcomingEvents);
-
   return (
     <div>
       <div className="mb-3 flex items-center justify-between px-6 lg:px-0">
